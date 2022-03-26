@@ -1,4 +1,3 @@
-import { memo } from "react";
 import StyledBtn from "./Btn.styled";
 
 type BtnProps = {
@@ -12,7 +11,6 @@ export const Btn: React.FC<BtnProps> = ({
   handleClick,
   disabled,
 }) => {
-  console.log("render");
   return (
     <StyledBtn onClick={handleClick} disabled={disabled}>
       {children}
