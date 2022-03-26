@@ -33,6 +33,7 @@ export const useProgress = () => {
 
   return {
     steps,
+    setSteps,
     currentActive,
     setCurrentAcvite,
     isTransition,

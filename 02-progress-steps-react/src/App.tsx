@@ -4,7 +4,7 @@ import { ProgressBar, Container, Btn } from "./components";
 import { useProgress } from "./hook/useProgress";
 
 const App: React.FC = () => {
-  const { steps, currentActive, setCurrentAcvite, setIsTransition } =
+  const { steps, setSteps, currentActive, setCurrentAcvite, setIsTransition } =
     useProgress();
 
   function handlePrevClick(): void {
@@ -21,6 +21,13 @@ const App: React.FC = () => {
     if (currentActive < steps.length) {
       setCurrentAcvite((prevCurrentActive) => prevCurrentActive + 1);
     }
+  }
+
+  function addStep(): void {
+    setSteps((prevSteps) => [
+      ...prevSteps,
+      { id: prevSteps.length + 1, active: false },
+    ]);
   }
 
   return (
@@ -41,6 +48,7 @@ const App: React.FC = () => {
         >
           Next
         </Btn>
+        <Btn handleClick={addStep}>Add</Btn>
       </Container>
     </>
   );
