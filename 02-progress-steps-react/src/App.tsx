@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import GlobalStyle from "./styles/GlobalStyle";
 import { ProgressBar, Container, Btn } from "./components";
 import { useProgress } from "./hook/useProgress";

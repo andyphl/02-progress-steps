@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { useProgress } from "../../hook/useProgress";
+import { memo } from "react";
 import StyledBtn from "./Btn.styled";
 
 type BtnProps = {
@@ -13,10 +12,9 @@ export const Btn: React.FC<BtnProps> = ({
   handleClick,
   disabled,
 }) => {
-  const btnRef = useRef<null | HTMLButtonElement>(null);
-
+  console.log("render");
   return (
-    <StyledBtn ref={btnRef} onClick={handleClick} disabled={disabled}>
+    <StyledBtn onClick={handleClick} disabled={disabled}>
       {children}
     </StyledBtn>
   );
