@@ -1,0 +1,120 @@
+:root {
+  --progress-bg: #ccc;
+  --progress-clr: #378cee;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: "Mulish", sans-serif;
+  height: 100vh;
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container {
+  text-align: center;
+}
+
+.progressbar {
+  max-width: 500px;
+  width: 90vw;
+  margin-bottom: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+}
+
+.progressbar::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  z-index: -1;
+  background-color: var(--progress-bg);
+}
+
+.progressbar__progress {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 5px;
+  width: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  z-index: -1;
+  background-color: var(--progress-clr);
+  -webkit-transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-in-out;
+}
+
+.progressbar__step {
+  height: 2rem;
+  width: 2rem;
+  background: #fff;
+  border: 5px solid var(--progress-bg);
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: border 0.2s ease-in-out;
+  transition: border 0.2s ease-in-out;
+}
+
+.progressbar__step--active {
+  border-color: var(--progress-clr);
+}
+
+.btn {
+  font-size: 1.25rem;
+  padding: 0.25rem 2rem;
+  margin: 0 0.25rem;
+  background-color: var(--progress-clr);
+  color: #fff;
+  border: 0;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.btn:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:disabled {
+  background-color: var(--progress-bg);
+  pointer-events: none;
+}
+/*# sourceMappingURL=style.css.map */
