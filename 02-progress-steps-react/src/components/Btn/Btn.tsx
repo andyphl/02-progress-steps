@@ -1,13 +1,13 @@
 import { memo /* , useRef */ } from "react";
 import StyledBtn from "./Btn.styled";
 
-type BtnProps = {
+interface IBtnProps {
   children?: React.ReactChild;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-};
+}
 
-export const Btn: React.FC<BtnProps> = memo(
+export const Btn: React.FC<IBtnProps> = memo(
   ({ children, handleClick, disabled }) => {
     // let buttonRef = useRef(0);
     // console.log(children, "Button renderred", buttonRef.current++);
