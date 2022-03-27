@@ -1,11 +1,11 @@
 import { memo } from "react";
 import styled from "styled-components";
 
-type StepProps = {
+interface IStepProps {
   active: boolean;
-};
+}
 
-const Step = memo(styled.div<StepProps>`
+const Step = memo(styled.div<IStepProps>`
   background-color: #fff;
   height: 2rem;
   width: 2rem;

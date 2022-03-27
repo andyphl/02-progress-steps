@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-type ProgressProps = {
+interface IProgressProps {
   progress: string;
-};
+}
 
-const Progress = styled.div<ProgressProps>`
+const Progress = styled.div<IProgressProps>`
   position: absolute;
   top: 50%;
   left: 0;

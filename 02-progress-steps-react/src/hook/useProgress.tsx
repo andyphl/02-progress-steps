@@ -15,30 +15,34 @@ export enum ProgressActionType {
 }
 
 // An interface for progress states
-export interface ProgressState {
+export interface IProgressState {
   steps: ISteps[];
   currentActive: number;
   isTransition: boolean;
 }
 
-const progressInitialState: ProgressState = {
+const progressInitialState: IProgressState = {
   steps: [
     { id: 1, active: true },
     { id: 2, active: false },
     { id: 3, active: false },
     { id: 4, active: false },
   ],
+  // steps: [...Array(5000).keys()].map((elm) => ({
+  //   id: elm + 1,
+  //   active: elm + 1 === 1,
+  // })),
   currentActive: 1,
   isTransition: true,
 };
 
 // An interface for progress actions
-export interface ProgressAction {
+export interface IProgressAction {
   type: ProgressActionType;
   payload?: any; // Use type assertion when payload is used
 }
 
-function progressReducer(state: ProgressState, action: ProgressAction) {
+function progressReducer(state: IProgressState, action: IProgressAction) {
   switch (action.type) {
     case ProgressActionType.SET_PREV_STEP:
       return {

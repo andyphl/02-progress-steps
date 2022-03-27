@@ -3,13 +3,13 @@ import Step from "./Step";
 import Progress from "./Progress";
 import { ISteps } from "../../hook/useProgress";
 
-type ProgressBarProps = {
+interface IProgressBarProps {
   steps: ISteps[];
   currentActive: number;
   handleTransitionEnd: React.TransitionEventHandler<HTMLDivElement>;
-};
+}
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({
+export const ProgressBar: React.FC<IProgressBarProps> = ({
   steps,
   currentActive,
   handleTransitionEnd,
