@@ -1,42 +1,108 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useReducer } from "react";
 
 export interface ISteps {
   id: number;
   active: boolean;
 }
 
-export const useProgress = () => {
-  const [steps, setSteps] = useState<ISteps[]>([
+// Type of actions
+export enum ProgressActionType {
+  SET_NEXT_STEP = "SET_NEXT_STEP",
+  SET_PREV_STEP = "SET_PREV_STEP",
+  UPDATE_STEPS = "UPDATE_STEPS",
+  TRANSITION = "TRANSITION",
+  ADD_STEP = "ADD_STEP",
+}
+
+// An interface for progress states
+export interface ProgressState {
+  steps: ISteps[];
+  currentActive: number;
+  isTransition: boolean;
+}
+
+const progressInitialState: ProgressState = {
+  steps: [
     { id: 1, active: true },
     { id: 2, active: false },
     { id: 3, active: false },
     { id: 4, active: false },
-  ]);
-  const [currentActive, setCurrentAcvite] = useState<number>(1);
-  const [isTransition, setIsTransition] = useState<boolean>(true);
+  ],
+  currentActive: 1,
+  isTransition: true,
+};
+
+// An interface for progress actions
+export interface ProgressAction {
+  type: ProgressActionType;
+  payload?: any; // Use type assertion when payload is used
+}
+
+function progressReducer(state: ProgressState, action: ProgressAction) {
+  switch (action.type) {
+    case ProgressActionType.SET_PREV_STEP:
+      return {
+        ...state,
+        currentActive: ((prevCurrentActive) => {
+          // Use IIFE to check if currentActive is out of bound or not
+          if (prevCurrentActive > 1) {
+            return prevCurrentActive - 1;
+          }
+          return prevCurrentActive;
+        })(state.currentActive),
+        isTransition: true,
+      };
+    case ProgressActionType.SET_NEXT_STEP:
+      return {
+        ...state,
+        currentActive: ((prevCurrentActive) => {
+          // Use IIFE to check if currentActive is out of bound or not
+          if (prevCurrentActive < state.steps.length) {
+            return prevCurrentActive + 1;
+          }
+          return prevCurrentActive;
+        })(state.currentActive),
+        isTransition: true,
+      };
+    case ProgressActionType.UPDATE_STEPS:
+      return {
+        ...state,
+        steps: state.steps.map((step) => {
+          step.id <= state.currentActive
+            ? (step.active = true)
+            : (step.active = false);
+          return step;
+        }),
+      };
+    case ProgressActionType.TRANSITION:
+      return {
+        ...state,
+        isTransition: action.payload as boolean,
+      };
+    case ProgressActionType.ADD_STEP:
+      return {
+        ...state,
+        steps: [...state.steps, { id: state.steps.length + 1, active: false }],
+      };
+    default:
+      return state;
+  }
+}
+
+export const useProgress = () => {
+  const [progressState, progressDispatch] = useReducer(
+    progressReducer,
+    progressInitialState
+  );
 
   useEffect(() => {
-    if (isTransition) return;
-    setSteps((prevSteps) => {
-      const steps = [...prevSteps];
-      for (let i = 0; i < steps.length; i++) {
-        if (i < currentActive) {
-          steps[i].active = true;
-        } else {
-          steps[i].active = false;
-        }
-      }
-      return steps;
-    });
-    setIsTransition(true);
-  }, [isTransition, currentActive]);
+    if (progressState.isTransition) return;
+
+    progressDispatch({ type: ProgressActionType.UPDATE_STEPS });
+  }, [progressState.isTransition, progressState.currentActive]);
 
   return {
-    steps,
-    setSteps,
-    currentActive,
-    setCurrentAcvite,
-    isTransition,
-    setIsTransition,
+    progressState,
+    progressDispatch,
   };
 };
