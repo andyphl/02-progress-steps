@@ -1,10 +1,11 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 type StepProps = {
   active: boolean;
 };
 
-const Step = styled.div<StepProps>`
+const Step = memo(styled.div<StepProps>`
   background-color: #fff;
   height: 2rem;
   width: 2rem;
@@ -15,6 +16,6 @@ const Step = styled.div<StepProps>`
   justify-content: center;
   text-align: center;
   transition: border 0.1s ease-in-out;
-`;
+`);
 
 export default Step;

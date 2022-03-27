@@ -1,50 +1,49 @@
-import React from "react";
+import React, { useCallback /* , useEffect  */ } from "react";
 import GlobalStyle from "./styles/GlobalStyle";
 import { ProgressBar, Container, Btn } from "./components";
-import { useProgress } from "./hook/useProgress";
+import { useProgress, ProgressActionType } from "./hook/useProgress";
 
 const App: React.FC = () => {
-  const { steps, setSteps, currentActive, setCurrentAcvite, setIsTransition } =
-    useProgress();
+  const { progressState, progressDispatch } = useProgress();
 
-  function handlePrevClick(): void {
-    if (currentActive > 1) {
-      setCurrentAcvite((prevCurrentActive) => prevCurrentActive - 1);
-    }
-  }
+  const handlePrevClick = useCallback((): void => {
+    progressDispatch({ type: ProgressActionType.SET_PREV_STEP });
+  }, []);
 
-  function handleTransitionEnd(e: React.TransitionEvent<HTMLDivElement>) {
-    setIsTransition(false);
-  }
+  const handleNextClick = useCallback((): void => {
+    progressDispatch({ type: ProgressActionType.SET_NEXT_STEP });
+  }, []);
 
-  function handleNextClick(): void {
-    if (currentActive < steps.length) {
-      setCurrentAcvite((prevCurrentActive) => prevCurrentActive + 1);
-    }
-  }
+  const handleTransitionEnd = useCallback((): void => {
+    progressDispatch({ type: ProgressActionType.TRANSITION, payload: false });
+  }, []);
 
-  function addStep(): void {
-    setSteps((prevSteps) => [
-      ...prevSteps,
-      { id: prevSteps.length + 1, active: false },
-    ]);
-  }
+  const addStep = useCallback((): void => {
+    progressDispatch({ type: ProgressActionType.ADD_STEP });
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("functions created");
+  // }, [handleNextClick, handlePrevClick, handleTransitionEnd, addStep]);
 
   return (
     <>
       <GlobalStyle />
       <Container>
         <ProgressBar
-          steps={steps}
-          currentActive={currentActive}
+          steps={progressState.steps}
+          currentActive={progressState.currentActive}
           handleTransitionEnd={handleTransitionEnd}
         />
-        <Btn handleClick={handlePrevClick} disabled={currentActive === 1}>
+        <Btn
+          handleClick={handlePrevClick}
+          disabled={progressState.currentActive === 1}
+        >
           Prev
         </Btn>
         <Btn
           handleClick={handleNextClick}
-          disabled={currentActive === steps.length}
+          disabled={progressState.currentActive === progressState.steps.length}
         >
           Next
         </Btn>
